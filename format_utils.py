@@ -24,6 +24,9 @@ class FormatUtils:
             if isinstance(formula[i], Fraction):
                 # 如果为分数
                 output += FormatUtils.standard_format(formula[i])
+            elif isinstance(formula[i], int):
+                # 如果为整型
+                output += str(formula[i])
             elif formula[i] == '+':
                 output += ' ＋ '
             elif formula[i] == '-':
@@ -44,7 +47,7 @@ class FormatUtils:
         postfix_formula = list()  # 输出后缀表达式结果
         op_list = list()
         for i in range(len(formula_list)):
-            if isinstance(formula_list[i], Fraction):
+            if isinstance(formula_list[i], int) or isinstance(formula_list[i], Fraction):
                 # 如果为数字直接输出
                 postfix_formula.append(formula_list[i])
             elif formula_list[i] == '(':
@@ -75,7 +78,7 @@ class FormatUtils:
         check_formula = list()
         temp_list = list()
         for i in range(len(postfix_formula)):
-            if isinstance(postfix_formula[i], Fraction):
+            if isinstance(postfix_formula[i], int) or isinstance(postfix_formula[i], Fraction):
                 # 如果为数字压栈
                 temp_list.append(postfix_formula[i])
             else:

@@ -107,33 +107,36 @@ class Tree:
             for node in empty_node:
                 '''将所有空结点变为数字结点'''
                 node.type = 1
-                # 设置真分数的比重 1为整数 2为分数
+                # 设置真分数的比重 1为整数 0为分数
                 num_type = random.choices(self.type_list, self.num_weight)[0]
                 if num_type == 1:
                     # 生成一个整数
-                    node.number = Fraction(random.randint(1, num_range))
+                    node.number = random.randint(1, num_range)
                 else:
                     # 生成一个真分数
                     node.number = Fraction(random.randint(1, num_range), random.randint(1, num_range))
             try:
                 # self.root.show_node()  # 获取生成的二叉树结构
-                self.pre_formula = self.root.get_formula()  # 获取前缀表达式
-                self.post_formula = FormatUtils.get_result_formula(self.pre_formula)  # 获取后缀表达式
-                self.check_formula = FormatUtils.get_check_formula(self.post_formula)  # 获取查重表达式
-
                 self.root.get_answer(negative)  # 计算答案
                 if self.root.number.denominator > 99:  # 分母超过99抛出异常
                     raise DifficultError()
 
+                self.pre_formula = self.root.get_formula()  # 获取前缀表达式
+                self.post_formula = FormatUtils.get_result_formula(self.pre_formula)  # 获取后缀表达式
+                self.check_formula = FormatUtils.get_check_formula(self.post_formula)  # 获取查重表达式
+
                 # 进行查重
                 if not Tree.duplicate_check(self.check_formula, self.result_formula):
-                    # 返回false 则表明没有重重
+                    # 返回false 则表明没有重复
                     self.result_formula.append(self.check_formula)
                 else:
                     raise DuplicateError
 
                 output = FormatUtils.standard_output(self.pre_formula)  # 格式化前缀表达式
-                answer = FormatUtils.standard_format(self.root.number)  # 格式化答案
+                if isinstance(self.root.number, Fraction):
+                    answer = FormatUtils.standard_format(self.root.number)  # 格式化答案
+                else:
+                    answer = self.root.number
                 # print(output, answer)
                 self.formula.append(output)
                 self.answer.append(answer)

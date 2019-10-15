@@ -22,6 +22,9 @@ class CalculatorUtils:
                 raise DifficultError()  # 抛出题目较难的异常对象(分母大于100)
             else:
                 answer = a / b
+                # 如果答案为浮点数，则转换为分数形式
+                if isinstance(answer, float):
+                    answer = Fraction(a) / Fraction(b)
         return answer
 
     @staticmethod
@@ -29,7 +32,7 @@ class CalculatorUtils:
         """计算后缀表达式的结果"""
         num_list = list()
         for i in range(len(formula_list)):
-            if isinstance(formula_list[i], Fraction):
+            if isinstance(formula_list[i], int) or isinstance(formula_list[i], Fraction):
                 num_list.append(formula_list[i])
             else:
                 b = num_list.pop()
