@@ -5,6 +5,17 @@ from fractions import Fraction
 
 
 if __name__ == '__main__':
+    start = time.clock()
+    a = Fraction(3,29)
+    for i in range(10000):
+        if isinstance(a, Fraction):
+            pass
+    end = time.clock()
+    print("判断时间:", str(end - start))
+    start = time.clock()
+    end = time.clock()
+    print("判断时间:", str(end - start))
+
     # a = 'Is Chicago'
     # b = 'Not Chicago?'
     # start = time.perf_counter()

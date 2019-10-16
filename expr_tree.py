@@ -5,7 +5,9 @@ from calc_utils import CalculatorUtils
 from file_utils import FileUtils
 from format_utils import FormatUtils
 from calc_error import NegativeError, DifficultError, DuplicateError
-
+a = list()
+b = list()
+c = list()
 
 class Node:
     """算式二叉树节点"""
@@ -124,6 +126,9 @@ class Tree:
                 self.pre_formula = self.root.get_formula()  # 获取前缀表达式
                 self.post_formula = FormatUtils.get_result_formula(self.pre_formula)  # 获取后缀表达式
                 self.check_formula = FormatUtils.get_check_formula(self.post_formula)  # 获取查重表达式
+                a.append(self.pre_formula)
+                b.append(self.post_formula)
+                c.append(self.check_formula)
 
                 # 进行查重
                 if not Tree.duplicate_check(self.check_formula, self.result_formula):
@@ -177,5 +182,5 @@ if __name__ == '__main__':
     e_file = os.path.join(os.getcwd(), 'Exercises.txt')
     a_file = os.path.join(os.getcwd(), 'Answer.txt')
     g_file = os.path.join(os.getcwd(), 'Grade.txt')
-    formula_list, ans_list = t.generate_formula(10, 10000, False)
+    formula_list, ans_list = t.generate_formula(10, 10, False)
     FileUtils.write_file(formula_list, ans_list, e_file, a_file)  # 保存题目文件

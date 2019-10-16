@@ -40,6 +40,6 @@ if __name__ == '__main__':
         u_answer.append(answer)
     correct, wrong = CalculatorUtils.grading(u_answer, s_answer)  # 统计答题结果
     print("答题结果：")
-    print(correct)
-    print(wrong)
+    print('正确题号：', correct)
+    print('错误题号：', wrong)
     FileUtils.write_grade_file(args.grade, correct, wrong)  # 保存答题结果
