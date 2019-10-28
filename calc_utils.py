@@ -1,3 +1,4 @@
+import operator
 from fractions import Fraction
 from calc_error import NegativeError, DifficultError
 
@@ -5,26 +6,30 @@ from calc_error import NegativeError, DifficultError
 class CalculatorUtils:
 
     @staticmethod
-    def eval_formula(operator, a, b, negative=False):
-        """计算简单的加减乘除, 同时抛出不符合题目要求的异常"""
+    def eval_formula(op, a, b, negative=False):
+        """计算简单的加减乘除, 同时抛出不符合题目要求的异常
+
+        像计算x + y这样简单的算术，最好使用Python内置的operator。
+        因为operator使用的是C写的，所以执行速度相对Python代码的快
+        """
         answer = 0
-        if operator == "+":
-            answer = a + b
-        elif operator == "-":
-            if a < b and negative is False:
+        if op == "+":
+            answer = operator.add(a, b)
+        elif op == "-":
+            if operator.lt(a, b) and negative is False:  # a是否小于b
                 raise NegativeError()  # 抛出结果为负数的异常对象
             else:
-                answer = a - b
-        elif operator == "*":
-            answer = a * b
-        elif operator == "/":
-            if b > 99:
-                raise DifficultError()  # 抛出题目较难的异常对象(分母大于100)
+                answer = operator.sub(a, b)
+        elif op == "*":
+            answer = operator.mul(a, b)
+        elif op == "/":
+            if operator.gt(b, 99):  # b是否大于99
+                raise DifficultError()  # 抛出题目较难的异常对象(分母大于99)
             else:
-                answer = a / b
+                answer = operator.truediv(a, b)
                 # 如果答案为浮点数，则转换为分数形式
                 if isinstance(answer, float):
-                    answer = Fraction(a) / Fraction(b)
+                    answer = operator.truediv(Fraction(a),  Fraction(b))
         return answer
 
     @staticmethod
