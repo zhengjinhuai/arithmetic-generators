@@ -31,13 +31,13 @@ class CalculatorUtils:
     def get_answer(formula_list, negative):
         """计算后缀表达式的结果"""
         num_list = list()
-        for i in range(len(formula_list)):
-            if isinstance(formula_list[i], int) or isinstance(formula_list[i], Fraction):
-                num_list.append(formula_list[i])
+        for formula in formula_list:
+            if isinstance(formula, int) or isinstance(formula, Fraction):
+                num_list.append(formula)
             else:
                 b = num_list.pop()
                 a = num_list.pop()
-                res = CalculatorUtils.eval_formula(formula_list[i], a, b, negative)
+                res = CalculatorUtils.eval_formula(formula, a, b, negative)
                 num_list.append(res)
         return num_list.pop()
 

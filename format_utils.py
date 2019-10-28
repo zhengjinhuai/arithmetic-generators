@@ -20,40 +20,40 @@ class FormatUtils:
     def standard_output(formula):
         """标准的输出格式，将*转换成x /转换成÷ 分数转为真分数"""
         output = str()
-        for i in range(len(formula)):
-            if isinstance(formula[i], Fraction):
+        for item in formula:
+            if isinstance(item, Fraction):
                 # 如果为分数
-                output += FormatUtils.standard_format(formula[i])
-            elif isinstance(formula[i], int):
+                output += FormatUtils.standard_format(item)
+            elif isinstance(item, int):
                 # 如果为整型
-                output += str(formula[i])
-            elif formula[i] == '+':
+                output += str(item)
+            elif item == '+':
                 output += ' ＋ '
-            elif formula[i] == '-':
+            elif item == '-':
                 output += ' － '
-            elif formula[i] == '*':
+            elif item == '*':
                 output += ' × '
-            elif formula[i] == '/':
+            elif item == '/':
                 output += ' ÷ '
             else:
-                output += formula[i]
+                output += item
         output += ' ＝ '
         return output
 
     @staticmethod
-    def get_result_formula(formula_list):
+    def get_result_formula(formula):
         """将中缀表达式转换成后缀表达式"""
         op_priority = {'(': 0, ')': 0, '+': 1, '-': 1, '*': 2, '/': 2}
         postfix_formula = list()  # 输出后缀表达式结果
         op_list = list()
-        for i in range(len(formula_list)):
-            if isinstance(formula_list[i], int) or isinstance(formula_list[i], Fraction):
+        for item in formula:
+            if isinstance(item, int) or isinstance(item, Fraction):
                 # 如果为数字直接输出
-                postfix_formula.append(formula_list[i])
-            elif formula_list[i] == '(':
+                postfix_formula.append(item)
+            elif item == '(':
                 # 如果为左括号,压栈到op_list
-                op_list.append(formula_list[i])
-            elif formula_list[i] == ')':
+                op_list.append(item)
+            elif item == ')':
                 # 如果为右括号,将op_list中所有左括号的操作符输出
                 while op_list[-1] != '(':
                     postfix_formula.append(op_list.pop())
@@ -62,9 +62,9 @@ class FormatUtils:
                 # 如果为操作符,比较该操作符和栈顶的操作符优先级作比较
                 # 如果优先级大于栈顶元素压栈,否则将op_list中优先级大于或等于该操作符的元素输出
                 # 最后压栈
-                while len(op_list) > 0 and op_priority[op_list[-1]] >= op_priority[formula_list[i]]:
+                while len(op_list) > 0 and op_priority[op_list[-1]] >= op_priority[item]:
                     postfix_formula.append(op_list.pop())
-                op_list.append(formula_list[i])
+                op_list.append(item)
 
         while op_list:
             # 将剩余的op_list出栈
@@ -77,13 +77,13 @@ class FormatUtils:
         """根据后缀表达式来生成查重表达式"""
         check_formula = list()
         temp_list = list()
-        for i in range(len(postfix_formula)):
-            if isinstance(postfix_formula[i], int) or isinstance(postfix_formula[i], Fraction):
+        for formula in postfix_formula:
+            if isinstance(formula, int) or isinstance(formula, Fraction):
                 # 如果为数字压栈
-                temp_list.append(postfix_formula[i])
+                temp_list.append(formula)
             else:
                 # 如果为操作符
-                check_formula.append(postfix_formula[i])
+                check_formula.append(formula)
                 last = temp_list.pop()
                 if last != '#':
                     check_formula.append(last)

@@ -5,9 +5,12 @@ from calc_utils import CalculatorUtils
 from file_utils import FileUtils
 from format_utils import FormatUtils
 from calc_error import NegativeError, DifficultError, DuplicateError
+
+
 a = list()
 b = list()
 c = list()
+
 
 class Node:
     """算式二叉树节点"""
@@ -164,14 +167,14 @@ class Tree:
     @staticmethod
     def duplicate_check(target_expr, result_expr):
         """检查新生成的式子是否重复"""
-        for i in range(len(result_expr)):
-            if result_expr[i] == target_expr:
+        for expr in result_expr:
+            if expr == target_expr:
                 return True
             if target_expr[0] == '+' or target_expr[0] == '*':
                 temp = target_expr[1]
                 target_expr[1] = target_expr[2]
                 target_expr[2] = temp
-                if result_expr[i] == target_expr:
+                if expr == target_expr:
                     return True
             return False
         return False
@@ -182,5 +185,5 @@ if __name__ == '__main__':
     e_file = os.path.join(os.getcwd(), 'Exercises.txt')
     a_file = os.path.join(os.getcwd(), 'Answer.txt')
     g_file = os.path.join(os.getcwd(), 'Grade.txt')
-    formula_list, ans_list = t.generate_formula(10, 10, False)
+    formula_list, ans_list = t.generate_formula(10, 100, False)
     FileUtils.write_file(formula_list, ans_list, e_file, a_file)  # 保存题目文件
